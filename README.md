@@ -925,4 +925,3 @@ document.addEventListener("DOMContentLoaded", updateDeviceDetection);
 </div>
 
 </body>
-</html>
