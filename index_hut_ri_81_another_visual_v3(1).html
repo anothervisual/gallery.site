@@ -1,1 +1,873 @@
 
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#b40018">
+  <title>HUT Another Visual — Arsip Dokumentasi</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Montserrat:wght@700;800;900&display=swap');
+
+    :root {
+      --red: #b40018;
+      --red2: #8d0013;
+      --ink: #151515;
+      --muted: #6e7075;
+      --bg: #f2f3f5;
+      --white: #fff;
+      --line: #e7e7e9;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Inter, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .nav {
+      position: fixed;
+      z-index: 1000;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 76px;
+      background: rgba(255, 255, 255, .92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(0, 0, 0, .07);
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-inner {
+      width: min(1180px, 92%);
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: Montserrat, sans-serif;
+      font-weight: 900;
+      letter-spacing: -1.5px;
+    }
+
+    .logo-mark {
+      font-size: 28px;
+      color: var(--red);
+      line-height: 1;
+    }
+
+    .logo-mark span {
+      color: #171717;
+    }
+
+    .logo-sub {
+      font-size: 9px;
+      letter-spacing: 2px;
+      color: #777;
+      font-weight: 800;
+      border-left: 1px solid #ddd;
+      padding-left: 10px;
+    }
+
+    .navlinks {
+      display: flex;
+      gap: 28px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #555;
+    }
+
+    .navlinks a {
+      transition: .25s;
+    }
+
+    .navlinks a:hover {
+      color: var(--red);
+    }
+
+    .nav-cta {
+      background: var(--red);
+      color: white;
+      padding: 11px 17px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      box-shadow: 0 8px 22px rgba(180, 0, 24, .2);
+    }
+
+    .hero {
+      min-height: 760px;
+      padding-top: 76px;
+      position: relative;
+      overflow: hidden;
+      background: radial-gradient(circle at 20% 25%, rgba(255, 255, 255, .09), transparent 24%),
+                  radial-gradient(circle at 80% 70%, rgba(255, 255, 255, .06), transparent 25%),
+                  linear-gradient(135deg, var(--red2), var(--red) 52%, #c9001d);
+    }
+
+    .hero:before,
+    .hero:after {
+      content: "";
+      position: absolute;
+      border: 1px solid rgba(255, 255, 255, .09);
+      transform: rotate(45deg);
+    }
+
+    .hero:before {
+      width: 650px;
+      height: 650px;
+      right: -190px;
+      top: -190px;
+      box-shadow: 0 0 0 80px rgba(255, 255, 255, .025), 0 0 0 160px rgba(255, 255, 255, .018);
+    }
+
+    .hero:after {
+      width: 400px;
+      height: 400px;
+      left: -180px;
+      bottom: -220px;
+      box-shadow: 0 0 0 60px rgba(255, 255, 255, .025), 0 0 0 120px rgba(255, 255, 255, .018);
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255, 255, 255, .035) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255, 255, 255, .035) 1px, transparent 1px);
+      background-size: 70px 70px;
+      mask-image: linear-gradient(to bottom, black, transparent);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      width: min(1050px, 90%);
+      margin: auto;
+      min-height: 684px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+    }
+
+    .kicker {
+      font-size: 11px;
+      letter-spacing: 4px;
+      font-weight: 800;
+      opacity: .8;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-family: Montserrat, sans-serif;
+      font-size: clamp(42px, 7vw, 92px);
+      line-height: .92;
+      letter-spacing: -4px;
+      max-width: 950px;
+      text-shadow: 0 15px 35px rgba(0, 0, 0, .16);
+    }
+
+    .hero h1 .outline {
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255, 255, 255, .7);
+    }
+
+    .hero p {
+      margin: 27px auto 30px;
+      max-width: 600px;
+      font-size: 15px;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, .8);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 14px 21px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      transition: .25s;
+      border: 0;
+    }
+
+    .btn-white {
+      background: white;
+      color: var(--red);
+      box-shadow: 0 14px 35px rgba(0, 0, 0, .18);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+    }
+
+    .section {
+      width: min(1180px, 92%);
+      margin: auto;
+      padding: 100px 0;
+    }
+
+    .eyebrow {
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--red);
+      font-weight: 900;
+      margin-bottom: 13px;
+    }
+
+    .title {
+      font-family: Montserrat, sans-serif;
+      font-size: clamp(30px, 4vw, 50px);
+      letter-spacing: -2px;
+      line-height: 1.02;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+      max-width: 610px;
+      margin-top: 16px;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 44px;
+    }
+
+    .feature {
+      background: #fff;
+      border: 1px solid var(--line);
+      padding: 28px;
+      border-radius: 22px;
+      min-height: 230px;
+      transition: .3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature:hover {
+      transform: translateY(-7px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, .08);
+    }
+
+    .feature-no {
+      font-size: 10px;
+      color: var(--red);
+      font-weight: 900;
+      letter-spacing: 2px;
+    }
+
+    .feature h3 {
+      font-family: Montserrat, sans-serif;
+      font-size: 22px;
+      margin: 48px 0 9px;
+      letter-spacing: -.7px;
+    }
+
+    .feature p {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .feature-icon {
+      position: absolute;
+      right: 24px;
+      top: 24px;
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+      background: #fff1f3;
+      color: var(--red);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+    }
+
+    .archive {
+      background: #f2f3f5;
+      border-top: 1px solid var(--line);
+    }
+
+    .archive-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 35px 0 25px;
+    }
+
+    .filter {
+      border: 1px solid #ddd;
+      background: #fff;
+      border-radius: 999px;
+      padding: 9px 15px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .filter.active,
+    .filter:hover {
+      background: var(--red);
+      border-color: var(--red);
+      color: white;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid #e2e2e4;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 5px 16px rgba(0, 0, 0, .025);
+      transition: .3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 35px rgba(0, 0, 0, .09);
+    }
+
+    .photo {
+      aspect-ratio: 4/3;
+      background: #ddd;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: .5s;
+    }
+
+    .card:hover img {
+      transform: scale(1.05);
+    }
+
+    .photo::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, .25), transparent 45%);
+      pointer-events: none;
+    }
+
+    .num {
+      position: absolute;
+      z-index: 2;
+      left: 11px;
+      top: 10px;
+      color: #fff;
+      background: rgba(0, 0, 0, .45);
+      backdrop-filter: blur(8px);
+      font-size: 9px;
+      padding: 6px 8px;
+      border-radius: 999px;
+      font-weight: 800;
+    }
+
+    .meta {
+      padding: 14px;
+    }
+
+    .meta small {
+      font-size: 9px;
+      color: var(--red);
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .meta h4 {
+      font-size: 12px;
+      margin: 6px 0 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .actions {
+      display: flex;
+      gap: 7px;
+    }
+
+    .action {
+      flex: 1;
+      text-align: center;
+      padding: 9px;
+      border-radius: 9px;
+      background: #f2f3f5;
+      font-size: 10px;
+      font-weight: 800;
+      cursor: pointer;
+      border: 0;
+    }
+
+    .action.primary {
+      background: var(--red);
+      color: #fff;
+    }
+
+    .load {
+      display: flex;
+      justify-content: center;
+      margin-top: 34px;
+    }
+
+    .empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px;
+      color: #777;
+    }
+
+    .footer {
+      background: #121212;
+      color: #aaa;
+      padding: 45px 0;
+    }
+
+    .footer-inner {
+      width: min(1180px, 92%);
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .footer strong {
+      color: white;
+      font-family: Montserrat, sans-serif;
+    }
+
+    .modal {
+      position: fixed;
+      z-index: 1500;
+      inset: 0;
+      background: rgba(0, 0, 0, .78);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 25px;
+    }
+
+    .modal.open {
+      display: flex;
+    }
+
+    .modal-box {
+      max-width: 1000px;
+      width: 100%;
+      max-height: 90vh;
+      position: relative;
+    }
+
+    .modal-box img {
+      width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: 12px;
+      background: #111;
+    }
+
+    .close {
+      position: absolute;
+      right: -4px;
+      top: -44px;
+      background: #fff;
+      border: 0;
+      border-radius: 50%;
+      width: 34px;
+      height: 34px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 900px) {
+      .gallery {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .features {
+        grid-template-columns: 1fr;
+      }
+      .navlinks {
+        display: none;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .gallery {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 9px;
+      }
+      .section {
+        padding: 70px 0;
+      }
+      .hero {
+        min-height: 650px;
+      }
+      .hero-content {
+        min-height: 574px;
+      }
+      .archive-head,
+      .footer-inner {
+        display: block;
+      }
+      .footer-inner > * + * {
+        margin-top: 15px;
+      }
+      .meta {
+        padding: 10px;
+      }
+      .meta h4 {
+        font-size: 10px;
+      }
+      .action {
+        font-size: 9px;
+        padding: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="logo" href="#beranda">
+        <div class="logo-mark">RI <span>81</span></div>
+        <div class="logo-sub">REPUBLIK<br>INDONESIA</div>
+      </a>
+      <nav class="navlinks">
+        <a href="#beranda">Beranda</a>
+        <a href="#kegiatan">Kegiatan</a>
+        <a href="#galeri">Galeri</a>
+      </nav>
+      <a class="nav-cta" href="#galeri">Arsip Foto ↓</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="beranda">
+      <div class="hero-grid"></div>
+      <div class="hero-content">
+        <div>
+          <div class="kicker">17 AGUSTUS 1945 — 17 AGUSTUS 2026</div>
+          <h1>DIRGAHAYU<br><span class="outline">REPUBLIK</span> INDONESIA</h1>
+          <p>Semarak HUT Kemerdekaan Republik Indonesia ke-81. Satu bangsa, satu semangat, dan ribuan cerita yang diabadikan.</p>
+          <a class="btn btn-white" href="#galeri">Lihat Arsip Galeri →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="kegiatan">
+      <div class="eyebrow">SEMANGAT KEBERSAMAAN</div>
+      <div class="title">Kegiatan yang<br>menyatukan warga.</div>
+      <p class="lead">Dokumentasikan setiap momen perayaan kemerdekaan secara rapi, mudah dicari, dan mudah dibagikan.</p>
+    </section>
+
+    <section class="archive" id="galeri">
+      <div class="section">
+        <div class="archive-head">
+          <div>
+            <div class="eyebrow">GOOGLE DRIVE ARCHIVE</div>
+            <div class="title">ARSIP FOTO<br>HUT RI KE-81</div>
+            <p class="lead">Dokumentasi kegiatan dan kemeriahan perayaan Kemerdekaan Republik Indonesia.</p>
+          </div>
+          <div style="font-size:11px;color:#777;font-weight:700" id="count"></div>
+        </div>
+        <div class="gallery" id="gallery"></div>
+        <div class="load">
+          <button class="btn" style="background:#151515;color:white;cursor:pointer" id="loadMore">Muat Lebih Banyak</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <strong>Another Visual</strong><br>
+        <small>Arsip Dokumentasi Kemerdekaan Indonesia</small>
+      </div>
+      <div>
+        <small>Merah Putih • 17 Agustus 2026</small>
+      </div>
+    </div>
+  </footer>
+
+  <div class="modal" id="modal">
+    <div class="modal-box">
+      <button class="close" id="close">×</button>
+      <img id="modalImg" alt="Preview foto">
+    </div>
+  </div>
+
+  <script>
+    const photos = [
+      {"id": "1jrVbw3VbFPzOTp1crFjdi61RQ-9VDpsP", "title": "Dokumentasi HUT Another Visual — 001", "category": ""},
+      {"id": "1Fobc6JJtVGg9LBcPrTIsDqzAAX3N_BVL", "title": "Dokumentasi HUT Another Visual — 002", "category": ""},
+      {"id": "1mkzksU2C5_SzChjfjIarZoAWupttYw1C", "title": "Dokumentasi HUT Another Visual — 003", "category": ""},
+      {"id": "1Pzs8yvONV2wnUTDXc6YZ5Rjo2GU2qr-b", "title": "Dokumentasi HUT Another Visual — 004", "category": ""},
+      {"id": "1loDkjZZyl8DWzD8QT-GYrBABsBarsMKT", "title": "Dokumentasi HUT Another Visual — 005", "category": ""},
+      {"id": "1iTmyOR0d1iJBDU1X7bBexH6YuIHnWTPh", "title": "Dokumentasi HUT Another Visual — 006", "category": ""},
+      {"id": "1zO6ELF3J2BU8XOPaJ7u112gWMPWIn2l9", "title": "Dokumentasi HUT Another Visual — 007", "category": ""},
+      {"id": "1tRRVCsG81VwOEGIxB5VyiRYkwy2nSI5a", "title": "Dokumentasi HUT Another Visual — 008", "category": ""},
+      {"id": "1m1SRYWyeM2fYUv5XEtvEGUkcVkGJ6T9w", "title": "Dokumentasi HUT Another Visual — 009", "category": ""},
+      {"id": "1kvzSYYzVqCzXB1DZzJl0hJLe0LwHprgl", "title": "Dokumentasi HUT Another Visual — 010", "category": ""},
+      {"id": "1b6vIYD5taaXzYrzRhlb8y9vx3XYcffWB", "title": "Dokumentasi HUT Another Visual — 011", "category": ""},
+      {"id": "1_LIKJmFsLfdPhiKOndFJ5nIu5nKoAa1K", "title": "Dokumentasi HUT Another Visual — 012", "category": ""},
+      {"id": "1wGpYwoPQodFJ8prhuiZpz7K1yB_qp2mu", "title": "Dokumentasi HUT Another Visual — 013", "category": ""},
+      {"id": "17l1A35ALKhgg5AI-P1t_t99wvYcK39Mm", "title": "Dokumentasi HUT Another Visual — 014", "category": ""},
+      {"id": "1tAYjLdOzvtGgEz6RT51q7dEVW5tpOdrv", "title": "Dokumentasi HUT Another Visual — 015", "category": ""},
+      {"id": "1qT-WFjWEE91K7XNc3IcQ8lvLt1zaX5Mp", "title": "Dokumentasi HUT Another Visual — 016", "category": ""},
+      {"id": "1pYMvz1AWIoJL8XHFS1AJWe9a5sOWDAwj", "title": "Dokumentasi HUT Another Visual — 017", "category": ""},
+      {"id": "1YBziaJgiGwk9rb8AY8OvuSseA5eVADdC", "title": "Dokumentasi HUT Another Visual — 018", "category": ""},
+      {"id": "1DtS-5aLc77JTFqaN2yo6OkYvDsJsybow", "title": "Dokumentasi HUT Another Visual — 019", "category": ""},
+      {"id": "1esWH9RJF1_aBImZTlGwsglTIsqr2FpGJ", "title": "Dokumentasi HUT Another Visual — 020", "category": ""},
+      {"id": "1hjBtR_BuJa2mR2jB9E2jn0si4F7mz5Sh", "title": "Dokumentasi HUT Another Visual — 021", "category": ""},
+      {"id": "1d9duPz6hMMjMQGijtbUwVvwBLAKMzjW7", "title": "Dokumentasi HUT Another Visual — 022", "category": ""},
+      {"id": "1meOoKoTSLUxtKJudPz06k1Zjw5LJ_AGL", "title": "Dokumentasi HUT Another Visual — 023", "category": ""},
+      {"id": "1MxNBwcG06CFie9-q4NQQRF-U58p_F5p0", "title": "Dokumentasi HUT Another Visual — 024", "category": ""},
+      {"id": "1fWJ41tIEliYAQ77NG_-VpBzZcZUNdxUc", "title": "Dokumentasi HUT Another Visual — 025", "category": ""},
+      {"id": "1BDz4UznuYdTuP3-d9VsLbGktUDAf-1Ac", "title": "Dokumentasi HUT Another Visual — 026", "category": ""},
+      {"id": "1CoRWTKqbq3rzjSXhmPdaUHm4MphWAfom", "title": "Dokumentasi HUT Another Visual — 027", "category": ""},
+      {"id": "1uxqTfMlPgh7Jg3lJQBSeMa0HCn9XwEdU", "title": "Dokumentasi HUT Another Visual — 028", "category": ""},
+      {"id": "1DKdyKsKjVWHbDXS5259SvHr81AyVje_G", "title": "Dokumentasi HUT Another Visual — 029", "category": ""},
+      {"id": "14WW-7-JyJmNL-0FxML7P0-3o2s_RJ9vb", "title": "Dokumentasi HUT Another Visual — 030", "category": ""},
+      {"id": "1TRW3iFGK_8rYPSEMzCjPy4ZDdv28rYmb", "title": "Dokumentasi HUT Another Visual — 031", "category": ""},
+      {"id": "1mdN_Y_qHPemyNrpl0SiY7c3ijW8UREW2", "title": "Dokumentasi HUT Another Visual — 032", "category": ""},
+      {"id": "1rmE6sSxpwuOpTJVe2SmpTruDkAmUCCR7", "title": "Dokumentasi HUT Another Visual — 033", "category": ""},
+      {"id": "1BIhQIJK49BrN8EdWrHALSF0TYIZKibJ-", "title": "Dokumentasi HUT Another Visual — 034", "category": ""},
+      {"id": "1KgenXqavQbjro0sTz3R-3Al9Hj2_UCNv", "title": "Dokumentasi HUT Another Visual — 035", "category": ""},
+      {"id": "1FKQS8fw5E_VHhCfjsG6c_JOqTKqiylz1", "title": "Dokumentasi HUT Another Visual — 036", "category": ""},
+      {"id": "1IdANhY_Vqi9AiI6Nt51NKme4OOOC1qs4", "title": "Dokumentasi HUT Another Visual — 037", "category": ""},
+      {"id": "1ctiZL0pWtxgdiA8anSGYzTdfpXzyXRTu", "title": "Dokumentasi HUT Another Visual — 038", "category": ""},
+      {"id": "19O6lBqOOKP9WBBOiNBkHA9tYvvYRqj2Y", "title": "Dokumentasi HUT Another Visual — 039", "category": ""},
+      {"id": "1YaeZaggiNvFzTAlDVaKblQzoe1oMKza6", "title": "Dokumentasi HUT Another Visual — 040", "category": ""},
+      {"id": "1fNH4aZ8qvpXWz5OvO0543OKEGh8If3bM", "title": "Dokumentasi HUT Another Visual — 041", "category": ""},
+      {"id": "1vekjDrONOLa0Gtd7dsXGGFH39QmV5a-S", "title": "Dokumentasi HUT Another Visual — 042", "category": ""},
+      {"id": "1qXzav33s7-Tyjf2_amnmlIxPbkCVO9j8", "title": "Dokumentasi HUT Another Visual — 043", "category": ""},
+      {"id": "1_HPy5G9d72X06aKKplRzsEew38LB2-TU", "title": "Dokumentasi HUT Another Visual — 044", "category": ""},
+      {"id": "19L77VwF7JxMhWRVODUvHy649kxrX4ncE", "title": "Dokumentasi HUT Another Visual — 045", "category": ""},
+      {"id": "1FPnpn1H882Z8CY5CCLXONuY8_xMB3cni", "title": "Dokumentasi HUT Another Visual — 046", "category": ""},
+      {"id": "1F59beaqxWsNDrkF8589SOLUjz4HLkg36", "title": "Dokumentasi HUT Another Visual — 047", "category": ""},
+      {"id": "1rcGoJR4rIyekLqlppssspRhWd0Nh7Gr5", "title": "Dokumentasi HUT Another Visual — 048", "category": ""},
+      {"id": "1AZoYkS9BziwZ2UnpFdX0sjpsI7rI8grr", "title": "Dokumentasi HUT Another Visual — 049", "category": ""},
+      {"id": "1XIkYsialnZMj3RB_PfiL7-MUovgMU0n-", "title": "Dokumentasi HUT Another Visual — 050", "category": ""},
+      {"id": "1YPRlIHpZj8qObf4ZnaJgiffNbCCeQlLB", "title": "Dokumentasi HUT Another Visual — 051", "category": ""},
+      {"id": "1dOWkkznRwBh2j3H2ezoA71mt1T4U7SLj", "title": "Dokumentasi HUT Another Visual — 052", "category": ""},
+      {"id": "1ckkvZjItT5UwdnLwSV7QEB8jItnuILEQ", "title": "Dokumentasi HUT Another Visual — 053", "category": ""},
+      {"id": "1TKMJkz5k36bd7J_kS9XWsBUa92TEYBLj", "title": "Dokumentasi HUT Another Visual — 054", "category": ""},
+      {"id": "1Uy-TTfF5S5T9yjIIKAZ2gNWmiApVLAWG", "title": "Dokumentasi HUT Another Visual — 055", "category": ""},
+      {"id": "1jMUJ7L3ijbLDnnQRJ3A2CYBLgMo_iDDX", "title": "Dokumentasi HUT Another Visual — 056", "category": ""},
+      {"id": "1UBN3kv9uh1lKZr8MA-DggUINKecq_aXU", "title": "Dokumentasi HUT Another Visual — 057", "category": ""},
+      {"id": "1AL9ofAdAgVGDi7bCWvcPJINXFpCPifvn", "title": "Dokumentasi HUT Another Visual — 058", "category": ""},
+      {"id": "18t8UOBf2_xVdlgzY8OAWeC-DglOvSZYu", "title": "Dokumentasi HUT Another Visual — 059", "category": ""},
+      {"id": "1y7UxITbmN1SmvtUaZE6fXXmouPXBEQ_E", "title": "Dokumentasi HUT Another Visual — 060", "category": ""},
+      {"id": "13I-ghIDt4NUhVj5-Q14iUmrSGk_lpBut", "title": "Dokumentasi HUT Another Visual — 061", "category": ""},
+      {"id": "1Yh_2Uic_77YeD3Z9R8hU7rkNLHQYPWF2", "title": "Dokumentasi HUT Another Visual — 062", "category": ""},
+      {"id": "1zAvjiSvDtN50bUDzC_E0sYGim6NK9ioX", "title": "Dokumentasi HUT Another Visual — 063", "category": ""},
+      {"id": "1ouo2Gev24vYOEVXgAgPNZDEfM_Ms6gPM", "title": "Dokumentasi HUT Another Visual — 064", "category": ""},
+      {"id": "1jMeR627z12rOlCklLAJ0OryiBu1aOoWH", "title": "Dokumentasi HUT Another Visual — 065", "category": ""},
+      {"id": "1C6MS94ZAPxLvbXR6KlrvbMU-hN6LemQT", "title": "Dokumentasi HUT Another Visual — 066", "category": ""},
+      {"id": "1Wb-WhD_J9e8hBoURbYIG5Yn140IaR_Ey", "title": "Dokumentasi HUT Another Visual — 067", "category": ""},
+      {"id": "1qEBMwmbKTgMOJNFKmmp4efGCJNUkVNAL", "title": "Dokumentasi HUT Another Visual — 068", "category": ""},
+      {"id": "1CLif-9EgeJTwmZpXc8AIFGZjnZyc35Qn", "title": "Dokumentasi HUT Another Visual — 069", "category": ""},
+      {"id": "1T2QQsMTm6o1C-mf9OmExg18C-VpD6Izc", "title": "Dokumentasi HUT Another Visual — 070", "category": ""},
+      {"id": "17q4vEQLJF_sVT1HqufLKYtmsfqMu1Zul", "title": "Dokumentasi HUT Another Visual — 071", "category": ""},
+      {"id": "1es9kSqw_Gm_RBSYXTygHHKPQy7TyWf4e", "title": "Dokumentasi HUT Another Visual — 072", "category": ""},
+      {"id": "1mpZGqSZcszSReYyp4zCVDqdEcv1BDhDj", "title": "Dokumentasi HUT Another Visual — 073", "category": ""},
+      {"id": "107K3ScT97yT3hurBQdgfpISOG20kXVHe", "title": "Dokumentasi HUT Another Visual — 074", "category": ""},
+      {"id": "1NOch0YN-jW9_GxYViZg_uc2y7Dp1-JOK", "title": "Dokumentasi HUT Another Visual — 075", "category": ""},
+      {"id": "1MBqV7wepXhsbjcCegHRQludjPuKnROlM", "title": "Dokumentasi HUT Another Visual — 076", "category": ""},
+      {"id": "1s9TXu-HEY0O3FTh8NtJnlZlvtMgcRb7A", "title": "Dokumentasi HUT Another Visual — 077", "category": ""},
+      {"id": "1vm0H0p8bprxbAKeiFK01QuZYug-zMbz-", "title": "Dokumentasi HUT Another Visual — 078", "category": ""},
+      {"id": "1VnNWKh94KJVGsFSMdOUJ0YRPP8tBUjyp", "title": "Dokumentasi HUT Another Visual — 079", "category": ""},
+      {"id": "1z5SKAbz27jFwHfWeLtMc1lSTSH8nnwD8", "title": "Dokumentasi HUT Another Visual — 080", "category": ""},
+      {"id": "1ql1oQjAqc7LroO7XWcf41RFAvDT5JfBe", "title": "Dokumentasi HUT Another Visual — 081", "category": ""},
+      {"id": "14SKj9IBR2YOho_ysbDw3ogonbNSm2wZa", "title": "Dokumentasi HUT Another Visual — 082", "category": ""},
+      {"id": "1Wgfa4fsjWr8ewUzfdc-MULmf36mzXHHN", "title": "Dokumentasi HUT Another Visual — 083", "category": ""},
+      {"id": "1IoFVvLA-YiXajNUO8rxPY2YCiU3EZU2E", "title": "Dokumentasi HUT Another Visual — 084", "category": ""},
+      {"id": "16UWBNpOBVnxKbo5TKJwNB5Q89wZvN_3n", "title": "Dokumentasi HUT Another Visual — 085", "category": ""},
+      {"id": "1lKw2n6Y0x9OutH3f_EEFUoCwfOa11ovT", "title": "Dokumentasi HUT Another Visual — 086", "category": ""},
+      {"id": "1M5vbZ0zSDI-OUb5j-wWCc9RFGCZ-_fvK", "title": "Dokumentasi HUT Another Visual — 087", "category": ""},
+      {"id": "1SepMmaehuN69sjzPxwUMK-mjg4rPhIg_", "title": "Dokumentasi HUT Another Visual — 088", "category": ""},
+      {"id": "1nXzT5H6t60a0eugJA9NM-ntQbcDhm04S", "title": "Dokumentasi HUT Another Visual — 089", "category": ""},
+      {"id": "1Ndp_TEzrGy0ILNoLDWdhwQXiAhAAyHfE", "title": "Dokumentasi HUT Another Visual — 090", "category": ""},
+      {"id": "1dGqodxZ_UpMvZ8fw1Otj1QnZKp7FnEJC", "title": "Dokumentasi HUT Another Visual — 091", "category": ""},
+      {"id": "109Zt_K0Qi8HC2w-033rY0MH_1Nm7ugs6", "title": "Dokumentasi HUT Another Visual — 092", "category": ""},
+      {"id": "1FIV-koNYB8MtkB-Z5taoouTH3MoPok0b", "title": "Dokumentasi HUT Another Visual — 093", "category": ""},
+      {"id": "1SM9BfraEmgCkKtBNgOoXOEgkxxYdtwcJ", "title": "Dokumentasi HUT Another Visual — 094", "category": ""},
+      {"id": "17RONS__xPxYHgqXPs1LArWBAyPCv_jmX", "title": "Dokumentasi HUT Another Visual — 095", "category": ""},
+      {"id": "1Bn7zlhkm4iLWSyIze0IakcWnx08dUJt9", "title": "Dokumentasi HUT Another Visual — 096", "category": ""},
+      {"id": "1V1Y-hYWy5lRdrgE3EBrWeP_Y5QlZYsJg", "title": "Dokumentasi HUT Another Visual — 097", "category": ""},
+      {"id": "1mmCmxqKQTMZPwaNnKUbf4Cu6kaVasrKX", "title": "Dokumentasi HUT Another Visual — 098", "category": ""},
+      {"id": "1lcO9oTYSiFskCV-PQnqEq1VsscEiRAjk", "title": "Dokumentasi HUT Another Visual — 099", "category": ""},
+      {"id": "1ECZ4EcxW887oUVOaW6sNz8BJ3rlLxlH9", "title": "Dokumentasi HUT Another Visual — 100", "category": ""},
+      {"id": "1n4m_G9iIsjG9IcGhEdu03rlluRfuulh_", "title": "Dokumentasi HUT Another Visual — 101", "category": ""},
+      {"id": "115NL64TZpg6vcYU8C8AVAHzZSD_z4kIO", "title": "Dokumentasi HUT Another Visual — 102", "category": ""},
+      {"id": "1WkmWtuCFQcR-dYJaxzYpHH0W48C2ImVy", "title": "Dokumentasi HUT Another Visual — 103", "category": ""},
+      {"id": "1OZF6RP0OCmMcj7KKm1-sksVese2jZhno", "title": "Dokumentasi HUT Another Visual — 104", "category": ""},
+      {"id": "1ecQ1xHguq78F-oWe6t9oTWcTJ_N4skRL", "title": "Dokumentasi HUT Another Visual — 105", "category": ""},
+      {"id": "1ewA_ANkCmc-M2m99mS7PZ8UjfVX_KJwY", "title": "Dokumentasi HUT Another Visual — 106", "category": ""},
+      {"id": "1ErOMcq6rbDEa8idLF99noRZgRN8h6wWJ", "title": "Dokumentasi HUT Another Visual — 107", "category": ""},
+      {"id": "1ZOeu2bv_QvN33Gx2lQ_XbOiXE3tHCAAD", "title": "Dokumentasi HUT Another Visual — 108", "category": ""},
+      {"id": "1GS0qPTqA-Qk7TSZPBm1DlI6quImvc67q", "title": "Dokumentasi HUT Another Visual — 109", "category": ""},
+      {"id": "1YSRksdLrC85i5Xbh7aHPkpyaGliDnqDj", "title": "Dokumentasi HUT Another Visual — 110", "category": ""},
+      {"id": "1J7Q0netm_bVdGl9p2vC-wJ36HRzL7kB7", "title": "Dokumentasi HUT Another Visual — 111", "category": ""},
+      {"id": "1zXP9M5RWKK4k7SEXWXSYlGAfAikCmHa_", "title": "Dokumentasi HUT Another Visual — 112", "category": ""},
+      {"id": "1ov29zhpTDiiJPRkdcscGNIQKc4U3qCN_", "title": "Dokumentasi HUT Another Visual — 113", "category": ""},
+      {"id": "1r13TGbbpWuMOT69w3Y1mZdhXuiu6XcfW", "title": "Dokumentasi HUT Another Visual — 114", "category": ""},
+      {"id": "11zYax3SmCmcQpWKqMuwi-Zam48nq-R3p", "title": "Dokumentasi HUT Another Visual — 115", "category": ""},
+      {"id": "1o1sBmTTowNftZEhGqKV41pJBazjpWoTL", "title": "Dokumentasi HUT Another Visual — 116", "category": ""},
+      {"id": "1_-gu3GraqrccOICq3cEOng-c4ucMF2tZ", "title": "Dokumentasi HUT Another Visual — 117", "category": ""},
+      {"id": "1Usf2kSDRG4LwDGY3-KmZCTgC8RtMX9tx", "title": "Dokumentasi HUT Another Visual — 118", "category": ""},
+      {"id": "1OffJvjdv5SdlEoFc5zdsJwIJnaB3zepK", "title": "Dokumentasi HUT Another Visual — 119", "category": ""},
+      {"id": "1gGG5_Vsk8xICQPOmM4gCDrOXM_cgRa6i", "title": "Dokumentasi HUT Another Visual — 120", "category": ""},
+      {"id": "1oqC4l2kqRmmVZQC3SH2bJACKhvX746e3", "title": "Dokumentasi HUT Another Visual — 121", "category": ""},
+      {"id": "1rMDrnbehulXfN10qhG4HPloUCBH_tKvf", "title": "Dokumentasi HUT Another Visual — 122", "category": ""},
+      {"id": "1_Cnz0CWYP6blv4FAX9Bs3dxNKYWbAM1o", "title": "Dokumentasi HUT Another Visual — 123", "category": ""},
+      {"id": "1ueVTl4-C4Qj3fRrFqDDiUYQsHzDN-dOP", "title": "Dokumentasi HUT Another Visual — 124", "category": ""},
+      {"id": "1JowWlB31S20dj5DrFetbGPWO5BhqVKCa", "title": "Dokumentasi HUT Another Visual — 125", "category": ""},
+      {"id": "1yK5BrE1ZFabAQdFEjMBdXFlJOeMGIeH_", "title": "Dokumentasi HUT Another Visual — 126", "category": ""},
+      {"id": "1BV7JdPi_jPoCWi_6N-6SOk46XLwUsL5k", "title": "Dokumentasi HUT Another Visual — 127", "category": ""},
+      {"id": "1DBGt-eQmuwNes5gCs8W50sAELlk_phK7", "title": "Dokumentasi HUT Another Visual — 128", "category": ""},
+      {"id": "10vzL9HMWGNBgbO6xm22tQGnGoDZDC7yq", "title": "Dokumentasi HUT Another Visual — 129", "category": ""},
+      {"id": "1X8AcT-XZoDaslTTZx1Sfq3ejx4oLq_wX", "title": "Dokumentasi HUT Another Visual — 130", "category": ""},
+      {"id": "10gSUcQPTwYAcHApk22HFgJUExTnlacbj", "title": "Dokumentasi HUT Another Visual — 131", "category": ""},
+      {"id": "1fxypOiPOg2Of1FU_NJQmE28RTVacDX3f", "title": "Dokumentasi HUT Another Visual — 132", "category": ""},
+      {"id": "10JoWseLgqG5wTmRN-ms6iqoKJJEUsPAQ", "title": "Dokumentasi HUT Another Visual — 133", "category": ""},
+      {"id": "1l8_U4DZ9Y7e_8nJGBU8TKQRta_Sbs3IO", "title": "Dokumentasi HUT Another Visual — 134", "category": ""},
+      {"id": "1JKpGYJEIiNtLhGmCj68Rmdf2iT36xPiH", "title": "Dokumentasi HUT Another Visual — 135", "category": ""},
+      {"id": "1FhKc9qIoexkwDyD6rvvIlkUCXbE0-71M", "title": "Dokumentasi HUT Another Visual — 136", "category": ""},
+      {"id": "1POXkAbmvBBsa1NM8VDZLaaJahZztuRZn", "title": "Dokumentasi HUT Another Visual — 137", "category": ""},
+      {"id": "1ch0t4r-Wb4rC7oIVTr6WimNpP4cm3wsK", "title": "Dokumentasi HUT Another Visual — 138", "category": ""},
+      {"id": "1g8vkDm0zh8HoMo_RwIs6zS_C7n-z8qkL", "title": "Dokumentasi HUT Another Visual — 139", "category": ""},
+      {"id": "11bexNEUjVRhRgQIc1dF199HLTvbGrGp4", "title": "Dokumentasi HUT Another Visual — 140", "category": ""},
+      {"id": "17VbcqJdyE8KuXAEHsgJ0nKhIJExBBD5o", "title": "Dokumentasi HUT Another Visual — 141", "category": ""},
+      {"id": "1M7M-DhtHbipMLYE_rHvr6_1H88Q1BPi0", "title": "Dokumentasi HUT Another Visual — 142", "category": ""},
+      {"id": "1Sv66EnW1d2Bw03lCh_T3tYhygr3hk-BC", "title": "Dokumentasi HUT Another Visual — 143", "category": ""},
+      {"id": "11I2vx5Puxz3V2zKKOzQtq0KOD43uDcB5", "title": "Dokumentasi HUT Another Visual — 144", "category": ""}
+    ];
+
+    const state = { filter: "Semua", shown: 12 };
+
+    function thumb(id) {
+      return `https://drive.google.com/thumbnail?id=${encodeURIComponent(id)}&sz=w1200`;
+    }
+
+    function downloadUrl(id) {
+      return `https://drive.usercontent.google.com/download?id=${encodeURIComponent(id)}&export=download&confirm=t`;
+    }
+
+    function filtered() {
+      return state.filter === "Semua" ? photos : photos.filter(p => p.category === state.filter);
+    }
+
+    function render() {
+      const list = filtered();
+      const visible = list.slice(0, state.shown);
+      
+      document.getElementById("count").textContent = `${list.length} foto tersedia`;
+      
+      const gallery = document.getElementById("gallery");
+      if (!visible.length) {
+        gallery.innerHTML = '<div class="empty">Tidak ada foto pada kategori ini.</div>';
+        return;
+      }
+      
+      gallery.innerHTML = visible.map((p) => `
+        <article class="card">
+          <div class="photo">
+            <span class="num">#${String(list.indexOf(p) + 1).padStart(3, "0")}</span>
+            <img loading="lazy" src="${thumb(p.id)}" alt="${p.title}" onerror="this.style.opacity=.2">
+          </div>
+          <div class="meta">
+            <small>${p.category}</small>
+            <h4>${p.title}</h4>
+            <div class="actions">
+              <button class="action" onclick="openPreview('${p.id}')">Lihat</button>
+              <a class="action primary" href="${downloadUrl(p.id)}" rel="noopener">Download</a>
+            </div>
+          </div>
+        </article>
+      `).join("");
+      
+      document.getElementById("loadMore").style.display = state.shown < list.length ? "inline-flex" : "none";
+    }
+
+    function openPreview(id) {
+      document.getElementById("modalImg").src = thumb(id);
+      document.getElementById("modal").classList.add("open");
+    }
+
+    function closePreview() {
+      document.getElementById("modal").classList.remove("open");
+      document.getElementById("modalImg").src = "";
+    }
+
+    document.getElementById("close").onclick = closePreview;
+    
+    document.getElementById("modal").onclick = e => {
+      if (e.target.id === "modal") closePreview();
+    };
+
+    document.querySelectorAll(".filter").forEach(btn => btn.addEventListener("click", () => {
+      document.querySelectorAll(".filter").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      state.filter = btn.dataset.filter;
+      state.shown = 12;
+      render();
+    }));
+
+    document.getElementById("loadMore").onclick = () => {
+      state.shown += 12;
+      render();
+    };
+
+    render();
+  </script>
+</body>
