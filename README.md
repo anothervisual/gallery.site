@@ -288,7 +288,7 @@ footer{
         <div><span>Timezone</span><b id="diTimezone">-</b></div>
     </div>
     <div class="device-badge"><i class="device-dot"></i><span id="diMode">Web visitor</span></div>
-</div>
+
 
 <script>
 /* =========================================================
