@@ -241,7 +241,7 @@ footer{
     </div>
 </div>
 
-<div class="modal" id="downloadModal"></p>
+<div class="modal" id="downloadModal">
         <div class="actions">
             <button class="btn primary" onclick="downloadPhoto()">YA, DOWNLOAD</button>
             <button class="btn secondary" onclick="closeDownload()">BATAL</button>
