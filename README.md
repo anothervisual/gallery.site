@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="id">
 <head>
   <meta charset="UTF-8">
@@ -577,12 +577,11 @@
   <header class="nav">
     <div class="nav-inner">
       <a class="logo" href="#beranda">
-        <div class="logo-mark">RI <span>81</span></div>
+        <div class="logo-mark">RI</div>
         <div class="logo-sub">REPUBLIK<br>INDONESIA</div>
       </a>
       <nav class="navlinks">
         <a href="#beranda">Beranda</a>
-        <a href="#kegiatan">Kegiatan</a>
         <a href="#galeri">Galeri</a>
       </nav>
       <a class="nav-cta" href="#galeri">Arsip Foto ↓</a>
