@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="id">
 <head>
 <meta charset="UTF-8">
@@ -334,6 +334,20 @@ footer{
 }
 </style>
 
+<style>
+.av-photo-loading{
+    background:linear-gradient(90deg,rgba(255,255,255,.05),rgba(255,255,255,.12),rgba(255,255,255,.05));
+    background-size:200% 100%;
+    animation:avShimmer 1.2s linear infinite;
+}
+@keyframes avShimmer{
+    from{background-position:200% 0}
+    to{background-position:-200% 0}
+}
+.gallery img{
+    content-visibility:auto;
+}
+</style>
 </head>
 
 <body>
@@ -377,8 +391,8 @@ footer{
 
 <div class="viewer" id="viewer">
     <button class="close-viewer" onclick="closeViewer()">×</button>
-    <img id="viewerImage" class="viewer-image" src="" alt="Another Visual">
-    <div class="viewer-bottom">
+    <img id="viewerImage" class="viewer-image" src="" alt="Another Visual" loading="lazy decoding="async
+    <div class="viewer-bottom" loading="eager" fetchpriority="high" decoding="async">
         <div class="viewer-counter" id="viewerCounter">001</div>
         <button class="download-button" onclick="openDownload()">DOWNLOAD FOTO</button>
     </div>
