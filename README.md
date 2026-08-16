@@ -1,5 +1,5 @@
 
-<html lang="id">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -677,43 +677,36 @@ function closeDownload(){
     downloadModal.classList.remove("active");
 }
 
-async function downloadPhoto(){
+function downloadPhoto(){
     if(!currentPhoto) return;
 
-    const url = driveImage(currentPhoto);
     closeDownload();
 
-    try {
-        const response = await fetch(url, {mode:"cors"});
-        if(!response.ok) throw new Error("Download gagal");
+    // Trigger the Google Drive download in a hidden iframe.
+    // The visitor stays on this website; no new tab is opened.
+    const downloadUrl =
+        "https://drive.google.com/uc?export=download&id=" +
+        encodeURIComponent(currentPhoto);
 
-        const blob = await response.blob();
-        const blobUrl = URL.createObjectURL(blob);
+    const frame = document.createElement("iframe");
+    frame.style.position = "fixed";
+    frame.style.width = "1px";
+    frame.style.height = "1px";
+    frame.style.left = "-9999px";
+    frame.style.top = "-9999px";
+    frame.style.border = "0";
+    frame.setAttribute("aria-hidden", "true");
+    frame.src = downloadUrl;
 
-        const link = document.createElement("a");
-        link.href = blobUrl;
-        link.download =
-            "Another-Visual-" +
-            String(currentIndex + 1).padStart(3,"0") +
-            ".jpg";
+    document.body.appendChild(frame);
 
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
+    setTimeout(() => {
+        frame.remove();
+    }, 30000);
 
-        setTimeout(() => URL.revokeObjectURL(blobUrl), 3000);
-
-        setTimeout(() => {
-            thankyou.classList.add("active");
-        }, 700);
-
-    } catch(error) {
-        alert(
-            "Foto belum bisa diunduh langsung dari halaman ini. " +
-            "Sumber foto masih menggunakan Google Drive dan " +
-            "Google Drive dapat membatasi download langsung dari website."
-        );
-    }
+    setTimeout(() => {
+        thankyou.classList.add("active");
+    }, 1000);
 }
 
 function nextPhoto(){
