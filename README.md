@@ -1,5 +1,5 @@
 
-
+<html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -682,19 +682,24 @@ function downloadPhoto(){
 
     closeDownload();
 
-    // Trigger the Google Drive download in a hidden iframe.
-    // The visitor stays on this website; no new tab is opened.
+    /*
+      Google Drive direct download endpoint.
+      The file must be shared as "Anyone with the link - Viewer".
+      The iframe is invisible, so the current website stays open.
+    */
     const downloadUrl =
-        "https://drive.google.com/uc?export=download&id=" +
-        encodeURIComponent(currentPhoto);
+        "https://drive.usercontent.google.com/download?id=" +
+        encodeURIComponent(currentPhoto) +
+        "&export=download&confirm=t";
 
     const frame = document.createElement("iframe");
     frame.style.position = "fixed";
     frame.style.width = "1px";
     frame.style.height = "1px";
-    frame.style.left = "-9999px";
-    frame.style.top = "-9999px";
-    frame.style.border = "0";
+    frame.style.left = "-10000px";
+    frame.style.top = "-10000px";
+    frame.style.opacity = "0";
+    frame.style.pointerEvents = "none";
     frame.setAttribute("aria-hidden", "true");
     frame.src = downloadUrl;
 
@@ -702,11 +707,11 @@ function downloadPhoto(){
 
     setTimeout(() => {
         frame.remove();
-    }, 30000);
+    }, 60000);
 
     setTimeout(() => {
         thankyou.classList.add("active");
-    }, 1000);
+    }, 1200);
 }
 
 function nextPhoto(){
