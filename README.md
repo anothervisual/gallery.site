@@ -225,6 +225,37 @@ h1 em {
   filter: brightness(.8);
 }
 
+.photo-download {
+  position: absolute;
+  z-index: 3;
+  top: 14px;
+  right: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 36px;
+  padding: 0 13px;
+  border: 1px solid rgba(214,183,131,.9);
+  border-radius: 24px;
+  background: rgba(11,12,14,.82);
+  color: var(--accent);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  -webkit-tap-highlight-color: transparent;
+  backdrop-filter: blur(8px);
+  transition: background .25s, color .25s, transform .25s;
+}
+
+.photo-download:hover,
+.photo-download:focus-visible {
+  background: var(--accent);
+  color: var(--bg);
+  transform: translateY(-1px);
+}
+
 .photo-info {
   position: absolute;
   z-index: 2;
@@ -350,12 +381,52 @@ footer span { color: var(--accent); }
 
 .lightbox.open { display: flex; }
 
+.lightbox-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: min(100%, 1100px);
+  max-height: 92vh;
+}
+
 .lightbox img {
   -webkit-user-drag: none;
   pointer-events: none;
   max-width: 100%;
-  max-height: 85vh;
+  max-height: calc(85vh - 65px);
   object-fit: contain;
+}
+
+.lightbox-download {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 46px;
+  padding: 0 24px;
+  border: 1px solid var(--accent);
+  border-radius: 30px;
+  background: var(--accent);
+  color: var(--bg);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  transition: .25s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.lightbox-download:hover {
+  background: transparent;
+  color: var(--accent);
+}
+
+@media (max-width: 760px) {
+  .lightbox { padding: 18px; }
+  .lightbox-download { width: 100%; max-width: 320px; }
 }
 
 .close {
@@ -385,6 +456,7 @@ footer span { color: var(--accent); }
     gap: 9px;
   }
   .photo-info { left: 11px; right: 11px; bottom: 12px; }
+  .photo-download { top: 8px; right: 8px; min-height: 31px; padding: 0 10px; font-size: 10px; }
   .photo-info h3 { font-size: 15px; }
   .photo-info p { font-size: 9px; letter-spacing: 1px; }
   .zoom { width: 27px; height: 27px; font-size: 15px; }
@@ -434,15 +506,6 @@ footer span { color: var(--accent); }
   <div class="gallery" id="gallery"></div>
   <div class="empty" id="empty">Belum ada foto dalam kategori ini.</div>
 
-  <div class="gallery-cta">
-    <p>Ingin melihat lebih banyak karya?</p>
-    <a class="download-button"
-       href="https://www.instagram.com/anothervisual_creative/"
-       target="_blank" rel="noopener noreferrer"
-       aria-label="Buka Instagram Another Visual Creative">
-      Download <span aria-hidden="true">↗</span>
-    </a>
-  </div>
 </main>
 
 <footer>
@@ -453,7 +516,15 @@ footer span { color: var(--accent); }
 <div class="lightbox" id="lightbox" role="dialog"
      aria-modal="true" aria-label="Pratinjau foto">
   <button class="close" id="close" aria-label="Tutup">&times;</button>
-  <img id="lightbox-img" src="" alt="Foto dalam ukuran besar">
+  <div class="lightbox-content">
+    <img id="lightbox-img" src="" alt="Foto dalam ukuran besar">
+    <a class="lightbox-download"
+       id="lightbox-download"
+       href="https://www.instagram.com/anothervisual_creative/"
+       target="_blank" rel="noopener noreferrer">
+      Download <span aria-hidden="true">↗</span>
+    </a>
+  </div>
 </div>
 
 <script>
@@ -531,7 +602,19 @@ function renderPhotos(filter = "all") {
     zoom.setAttribute("aria-hidden", "true");
 
     info.append(details, zoom);
-    card.append(img, info);
+
+    const download = document.createElement("a");
+    download.className = "photo-download";
+    download.href = "https://www.instagram.com/anothervisual_creative/";
+    download.target = "_blank";
+    download.rel = "noopener noreferrer";
+    download.setAttribute("aria-label", `Buka Instagram untuk foto ${photo.title}`);
+    download.innerHTML = 'Download <span aria-hidden="true">↗</span>';
+    download.addEventListener("click", event => {
+      event.stopPropagation();
+    });
+
+    card.append(img, info, download);
 
     card.addEventListener("click", () => {
       lightboxImg.src = driveImage(photo.id);
