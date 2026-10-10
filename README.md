@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
@@ -24,6 +24,7 @@
   padding: 0;
 }
 
+/* Proteksi sederhana untuk mencegah drag/select gambar */
 img, .photo, .lightbox {
   -webkit-user-select: none;
   user-select: none;
@@ -318,6 +319,7 @@ footer {
 
 footer span { color: var(--accent); }
 
+/* Lightbox Modal */
 .lightbox {
   position: fixed;
   inset: 0;
@@ -408,6 +410,12 @@ footer span { color: var(--accent); }
   .zoom { width: 27px; height: 27px; font-size: 15px; }
   .toolbar { align-items: start; flex-direction: column; }
 }
+
+@media (max-width: 420px) {
+  .gallery { grid-auto-rows: 155px; }
+  .photo.tall { grid-row: span 2; }
+  .photo-info h3 { font-size: 13px; }
+}
 </style>
 </head>
 
@@ -449,6 +457,7 @@ footer span { color: var(--accent); }
   <div>CAPTURED WITH INTENTION.</div>
 </footer>
 
+<!-- Lightbox Tampilan Foto Besar -->
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Pratinjau foto">
   <button class="close" id="close" aria-label="Tutup">&times;</button>
   <div class="lightbox-content">
@@ -460,6 +469,7 @@ footer span { color: var(--accent); }
 </div>
 
 <script>
+// DAFTAR FOTO DARI GOOGLE DRIVE
 const photos = [
   {
     id: "1UUFY5cjJVWRZcpjdXHUkh-ofB7OL7byJ",
@@ -479,26 +489,23 @@ const lightboxDownloadBtn = document.getElementById("lightbox-download");
 
 let currentPhotoId = "";
 
+// URL thumbnail untuk tampilan gambar di web
 function driveImage(id) {
   return `https://drive.google.com/thumbnail?id=${encodeURIComponent(id)}&sz=w1600`;
 }
 
-// Fungsi untuk menangani proses download otomatis lalu mengarahkan ke IG
-function handleDownload(id, title) {
+// FUNGSI UTAMA DOWNLOAD + REDIRECT INSTAGRAM
+function handleDownload(id) {
+  // Link pengunduhan file dari Google Drive
   const downloadUrl = `https://drive.google.com/uc?export=download&id=${encodeURIComponent(id)}`;
-  
-  // 1. Memicu unduhan otomatis ke perangkat
-  const a = document.createElement("a");
-  a.href = downloadUrl;
-  a.download = `${title || 'photo'}.jpg`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
 
-  // 2. Mengarahkan pengunjung ke Instagram setelah unduhan dimulai
+  // 1. Buka tautan unduhan di tab/window tersembunyi agar file terunduh
+  const downloadWindow = window.open(downloadUrl, "_blank");
+
+  // 2. Arahkan tab utama ke Instagram setelah unduhan dipicu
   setTimeout(() => {
     window.location.href = "https://www.instagram.com/anothervisual_creative/";
-  }, 1000); // Penundaan 1 detik agar proses trigger download siap
+  }, 300);
 }
 
 function renderPhotos(filter = "all") {
@@ -511,7 +518,7 @@ function renderPhotos(filter = "all") {
   count.textContent = `${String(filtered.length).padStart(2, "0")} PHOTOGRAPHS`;
 
   filtered.forEach((photo, index) => {
-    const card = document.article ? document.createElement("article") : document.createElement("article");
+    const card = document.createElement("article");
     card.className = "photo " + (photo.size || "");
     card.style.animationDelay = `${index * 70}ms`;
 
@@ -537,18 +544,18 @@ function renderPhotos(filter = "all") {
 
     info.append(details, zoom);
 
-    // Tombol Download di kartu kecil
+    // Tombol Download di kartu foto kecil
     const download = document.createElement("button");
     download.className = "photo-download";
     download.innerHTML = 'Download <span aria-hidden="true">↗</span>';
     download.addEventListener("click", event => {
-      event.stopPropagation();
-      handleDownload(photo.id, photo.title);
+      event.stopPropagation(); // Mencegah pembukaan lightbox
+      handleDownload(photo.id);
     });
 
     card.append(img, info, download);
 
-    // Klik kartu untuk membuka Lightbox (tampil besar)
+    // Klik foto untuk membuka tampilan besar (lightbox)
     card.addEventListener("click", () => {
       currentPhotoId = photo.id;
       lightboxImg.src = driveImage(photo.id);
@@ -559,11 +566,10 @@ function renderPhotos(filter = "all") {
   });
 }
 
-// Tombol download di dalam Lightbox
+// Event listener untuk tombol Download pada tampilan foto besar (Lightbox)
 lightboxDownloadBtn.addEventListener("click", () => {
   if (currentPhotoId) {
-    const activePhoto = photos.find(p => p.id === currentPhotoId);
-    handleDownload(currentPhotoId, activePhoto ? activePhoto.title : "photo");
+    handleDownload(currentPhotoId);
   }
 });
 
@@ -583,6 +589,7 @@ document.addEventListener("keydown", event => {
   if (event.key === "Escape") closeLightbox();
 });
 
+// Jalankan rendering foto saat pertama kali dibuka
 renderPhotos();
 </script>
 
