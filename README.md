@@ -24,7 +24,6 @@
   padding: 0;
 }
 
-/* Deterrents for casual image saving; these cannot prevent every capture. */
 img, .photo, .lightbox {
   -webkit-user-select: none;
   user-select: none;
@@ -87,8 +86,7 @@ nav {
   height: 400px;
   right: -150px;
   top: 0;
-  background: radial-gradient(circle,
-    rgba(214,183,131,.09), transparent 70%);
+  background: radial-gradient(circle, rgba(214,183,131,.09), transparent 70%);
   pointer-events: none;
 }
 
@@ -205,16 +203,14 @@ h1 em {
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform .7s cubic-bezier(.2,.7,.2,1),
-              filter .5s;
+  transition: transform .7s cubic-bezier(.2,.7,.2,1), filter .5s;
 }
 
 .photo::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to top, rgba(0,0,0,.85), transparent 55%);
+  background: linear-gradient(to top, rgba(0,0,0,.85), transparent 55%);
   opacity: .8;
   transition: .3s;
   pointer-events: none;
@@ -246,6 +242,7 @@ h1 em {
   letter-spacing: .5px;
   -webkit-tap-highlight-color: transparent;
   backdrop-filter: blur(8px);
+  cursor: pointer;
   transition: background .25s, color .25s, transform .25s;
 }
 
@@ -305,53 +302,6 @@ h1 em {
   color: var(--muted);
   text-align: center;
   padding: 60px 0;
-}
-
-.gallery-cta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  margin-top: 38px;
-  padding: 24px 0;
-  border-top: 1px solid var(--line);
-}
-
-.gallery-cta p {
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.7;
-}
-
-.download-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  min-height: 46px;
-  padding: 0 22px;
-  border: 1px solid var(--accent);
-  border-radius: 30px;
-  background: var(--accent);
-  color: var(--bg);
-  font: inherit;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  transition: background .25s, color .25s, transform .25s;
-  white-space: nowrap;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.download-button:hover {
-  background: transparent;
-  color: var(--accent);
-  transform: translateY(-2px);
-}
-
-.download-button:focus-visible {
-  outline: 2px solid var(--text);
-  outline-offset: 4px;
 }
 
 footer {
@@ -415,6 +365,7 @@ footer span { color: var(--accent); }
   font-weight: 700;
   letter-spacing: 1px;
   white-space: nowrap;
+  cursor: pointer;
   transition: .25s;
   -webkit-tap-highlight-color: transparent;
 }
@@ -422,11 +373,6 @@ footer span { color: var(--accent); }
 .lightbox-download:hover {
   background: transparent;
   color: var(--accent);
-}
-
-@media (max-width: 760px) {
-  .lightbox { padding: 18px; }
-  .lightbox-download { width: 100%; max-width: 320px; }
 }
 
 .close {
@@ -461,14 +407,6 @@ footer span { color: var(--accent); }
   .photo-info p { font-size: 9px; letter-spacing: 1px; }
   .zoom { width: 27px; height: 27px; font-size: 15px; }
   .toolbar { align-items: start; flex-direction: column; }
-  .gallery-cta { align-items: stretch; flex-direction: column; }
-  .download-button { width: 100%; }
-}
-
-@media (max-width: 420px) {
-  .gallery { grid-auto-rows: 155px; }
-  .photo.tall { grid-row: span 2; }
-  .photo-info h3 { font-size: 13px; }
 }
 </style>
 </head>
@@ -497,7 +435,6 @@ footer span { color: var(--accent); }
 <main class="gallery-section">
   <div class="toolbar">
     <div class="toolbar-title">Selected Works / Gallery</div>
-
     <div class="filters">
       <button class="filter active" data-filter="all">Semua</button>
     </div>
@@ -505,7 +442,6 @@ footer span { color: var(--accent); }
 
   <div class="gallery" id="gallery"></div>
   <div class="empty" id="empty">Belum ada foto dalam kategori ini.</div>
-
 </main>
 
 <footer>
@@ -513,25 +449,17 @@ footer span { color: var(--accent); }
   <div>CAPTURED WITH INTENTION.</div>
 </footer>
 
-<div class="lightbox" id="lightbox" role="dialog"
-     aria-modal="true" aria-label="Pratinjau foto">
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Pratinjau foto">
   <button class="close" id="close" aria-label="Tutup">&times;</button>
   <div class="lightbox-content">
     <img id="lightbox-img" src="" alt="Foto dalam ukuran besar">
-    <a class="lightbox-download"
-       id="lightbox-download"
-       href="https://www.instagram.com/anothervisual_creative/"
-       target="_blank" rel="noopener noreferrer">
+    <button class="lightbox-download" id="lightbox-download">
       Download <span aria-hidden="true">↗</span>
-    </a>
+    </button>
   </div>
 </div>
 
 <script>
-// ============================================
-// MASUKKAN FOTO GOOGLE DRIVE KAMU DI SINI
-// ============================================
-
 const photos = [
   {
     id: "1UUFY5cjJVWRZcpjdXHUkh-ofB7OL7byJ",
@@ -539,16 +467,7 @@ const photos = [
     category: "other",
     description: "PERSONAL COLLECTION",
     size: "tall"
-  },
-
-  // Tambahkan foto lainnya dengan format yang sama:
-  // {
-  //   id: "ID_FOTO_GOOGLE_DRIVE",
-  //   title: "Nama Foto",
-  //   category: "nature",
-  //   description: "PHOTO SERIES",
-  //   size: ""
-  // },
+  }
 ];
 
 const gallery = document.getElementById("gallery");
@@ -556,9 +475,30 @@ const count = document.getElementById("count");
 const empty = document.getElementById("empty");
 const lightbox = document.getElementById("lightbox");
 const lightboxImg = document.getElementById("lightbox-img");
+const lightboxDownloadBtn = document.getElementById("lightbox-download");
+
+let currentPhotoId = "";
 
 function driveImage(id) {
   return `https://drive.google.com/thumbnail?id=${encodeURIComponent(id)}&sz=w1600`;
+}
+
+// Fungsi untuk menangani proses download otomatis lalu mengarahkan ke IG
+function handleDownload(id, title) {
+  const downloadUrl = `https://drive.google.com/uc?export=download&id=${encodeURIComponent(id)}`;
+  
+  // 1. Memicu unduhan otomatis ke perangkat
+  const a = document.createElement("a");
+  a.href = downloadUrl;
+  a.download = `${title || 'photo'}.jpg`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+
+  // 2. Mengarahkan pengunjung ke Instagram setelah unduhan dimulai
+  setTimeout(() => {
+    window.location.href = "https://www.instagram.com/anothervisual_creative/";
+  }, 1000); // Penundaan 1 detik agar proses trigger download siap
 }
 
 function renderPhotos(filter = "all") {
@@ -568,11 +508,10 @@ function renderPhotos(filter = "all") {
 
   gallery.innerHTML = "";
   empty.style.display = filtered.length ? "none" : "block";
-  count.textContent =
-    `${String(filtered.length).padStart(2, "0")} PHOTOGRAPHS`;
+  count.textContent = `${String(filtered.length).padStart(2, "0")} PHOTOGRAPHS`;
 
   filtered.forEach((photo, index) => {
-    const card = document.createElement("article");
+    const card = document.article ? document.createElement("article") : document.createElement("article");
     card.className = "photo " + (photo.size || "");
     card.style.animationDelay = `${index * 70}ms`;
 
@@ -580,10 +519,6 @@ function renderPhotos(filter = "all") {
     img.src = driveImage(photo.id);
     img.alt = photo.title;
     img.loading = "lazy";
-    img.onerror = () => {
-      img.alt = "Foto tidak dapat dimuat. Periksa akses Google Drive.";
-      img.style.opacity = ".15";
-    };
 
     const info = document.createElement("div");
     info.className = "photo-info";
@@ -599,24 +534,23 @@ function renderPhotos(filter = "all") {
     const zoom = document.createElement("span");
     zoom.className = "zoom";
     zoom.textContent = "+";
-    zoom.setAttribute("aria-hidden", "true");
 
     info.append(details, zoom);
 
-    const download = document.createElement("a");
+    // Tombol Download di kartu kecil
+    const download = document.createElement("button");
     download.className = "photo-download";
-    download.href = "https://www.instagram.com/anothervisual_creative/";
-    download.target = "_blank";
-    download.rel = "noopener noreferrer";
-    download.setAttribute("aria-label", `Buka Instagram untuk foto ${photo.title}`);
     download.innerHTML = 'Download <span aria-hidden="true">↗</span>';
     download.addEventListener("click", event => {
       event.stopPropagation();
+      handleDownload(photo.id, photo.title);
     });
 
     card.append(img, info, download);
 
+    // Klik kartu untuk membuka Lightbox (tampil besar)
     card.addEventListener("click", () => {
+      currentPhotoId = photo.id;
       lightboxImg.src = driveImage(photo.id);
       lightbox.classList.add("open");
     });
@@ -625,19 +559,18 @@ function renderPhotos(filter = "all") {
   });
 }
 
-document.querySelectorAll(".filter").forEach(button => {
-  button.addEventListener("click", () => {
-    document.querySelector(".filter.active")
-      ?.classList.remove("active");
-
-    button.classList.add("active");
-    renderPhotos(button.dataset.filter);
-  });
+// Tombol download di dalam Lightbox
+lightboxDownloadBtn.addEventListener("click", () => {
+  if (currentPhotoId) {
+    const activePhoto = photos.find(p => p.id === currentPhotoId);
+    handleDownload(currentPhotoId, activePhoto ? activePhoto.title : "photo");
+  }
 });
 
 function closeLightbox() {
   lightbox.classList.remove("open");
   lightboxImg.src = "";
+  currentPhotoId = "";
 }
 
 document.getElementById("close").addEventListener("click", closeLightbox);
@@ -648,21 +581,6 @@ lightbox.addEventListener("click", event => {
 
 document.addEventListener("keydown", event => {
   if (event.key === "Escape") closeLightbox();
-});
-
-// Prevent the browser context menu on the gallery page (best-effort only).
-document.addEventListener("contextmenu", event => {
-  if (event.target.closest(".gallery, .lightbox, .gallery-cta")) {
-    event.preventDefault();
-  }
-});
-
-// Discourage common save shortcuts while this page is focused.
-document.addEventListener("keydown", event => {
-  const key = event.key.toLowerCase();
-  if ((event.ctrlKey || event.metaKey) && ["s", "u"].includes(key)) {
-    event.preventDefault();
-  }
 });
 
 renderPhotos();
