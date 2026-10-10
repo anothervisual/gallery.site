@@ -1,4 +1,3 @@
-
 <html lang="id">
 <head>
 <meta charset="UTF-8">
@@ -423,7 +422,7 @@ footer span { color: var(--accent); }
 
 <nav>
   <a href="#" class="logo">VISUAL<span>.</span>ARCHIVE</a>
-  <div class="nav-label">Photography Portfolio</div>
+  <div class="nav-label">Another Visual</div>
 </nav>
 
 <header class="hero">
@@ -453,7 +452,7 @@ footer span { color: var(--accent); }
 </main>
 
 <footer>
-  <div>© 2026 <span>VISUAL.ARCHIVE</span></div>
+  <div>© 2026 <span>Another Visual</span></div>
   <div>CAPTURED WITH INTENTION.</div>
 </footer>
 
@@ -462,9 +461,7 @@ footer span { color: var(--accent); }
   <button class="close" id="close" aria-label="Tutup">&times;</button>
   <div class="lightbox-content">
     <img id="lightbox-img" src="" alt="Foto dalam ukuran besar">
-    <button class="lightbox-download" id="lightbox-download">
-      Download <span aria-hidden="true">↗</span>
-    </button>
+    <button class="lightbox-download" id="lightbox-download">Download</button>
   </div>
 </div>
 
@@ -544,10 +541,10 @@ function renderPhotos(filter = "all") {
 
     info.append(details, zoom);
 
-    // Tombol Download di kartu foto kecil
+    // Tombol Download di kartu foto kecil (tanpa tanda panah)
     const download = document.createElement("button");
     download.className = "photo-download";
-    download.innerHTML = 'Download <span aria-hidden="true">↗</span>';
+    download.textContent = "Download";
     download.addEventListener("click", event => {
       event.stopPropagation(); // Mencegah pembukaan lightbox
       handleDownload(photo.id);
