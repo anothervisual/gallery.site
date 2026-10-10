@@ -1,3 +1,4 @@
+
 <html lang="id">
 <head>
 <meta charset="UTF-8">
@@ -448,7 +449,7 @@ footer span { color: var(--accent); }
   </div>
 
   <div class="gallery" id="gallery"></div>
-  <div class="empty" id="empty">Belum ada foto dalam kategori ini.</div>
+  <div class="empty" id="empty" style="display: block;">Belum ada foto dalam galeri.</div>
 </main>
 
 <footer>
@@ -466,15 +467,17 @@ footer span { color: var(--accent); }
 </div>
 
 <script>
-// DAFTAR FOTO DARI GOOGLE DRIVE
+// MASUKKAN DAFTAR FOTO GOOGLE DRIVE KAMU DI SINI
 const photos = [
+  /* Contoh format penambahan foto:
   {
-    id: "1UUFY5cjJVWRZcpjdXHUkh-ofB7OL7byJ",
-    title: "Captured Moment",
+    id: "ID_FOTO_GOOGLE_DRIVE_KAMU",
+    title: "Judul Foto",
     category: "other",
-    description: "PERSONAL COLLECTION",
-    size: "tall"
+    description: "PHOTO COLLECTION",
+    size: "" // Kosongkan atau isi "tall" / "wide"
   }
+  */
 ];
 
 const gallery = document.getElementById("gallery");
@@ -486,20 +489,19 @@ const lightboxDownloadBtn = document.getElementById("lightbox-download");
 
 let currentPhotoId = "";
 
-// URL thumbnail untuk tampilan gambar di web
+// URL thumbnail untuk tampilan gambar di web[cite: 1]
 function driveImage(id) {
   return `https://drive.google.com/thumbnail?id=${encodeURIComponent(id)}&sz=w1600`;
 }
 
-// FUNGSI UTAMA DOWNLOAD + REDIRECT INSTAGRAM
+// FUNGSI UTAMA DOWNLOAD + REDIRECT INSTAGRAM[cite: 1]
 function handleDownload(id) {
-  // Link pengunduhan file dari Google Drive
   const downloadUrl = `https://drive.google.com/uc?export=download&id=${encodeURIComponent(id)}`;
 
-  // 1. Buka tautan unduhan di tab/window tersembunyi agar file terunduh
+  // 1. Buka tautan unduhan di tab/window tersembunyi agar file terunduh[cite: 1]
   const downloadWindow = window.open(downloadUrl, "_blank");
 
-  // 2. Arahkan tab utama ke Instagram setelah unduhan dipicu
+  // 2. Arahkan tab utama ke Instagram setelah unduhan dipicu[cite: 1]
   setTimeout(() => {
     window.location.href = "https://www.instagram.com/anothervisual_creative/";
   }, 300);
@@ -541,18 +543,18 @@ function renderPhotos(filter = "all") {
 
     info.append(details, zoom);
 
-    // Tombol Download di kartu foto kecil (tanpa tanda panah)
+    // Tombol Download di kartu foto kecil[cite: 1]
     const download = document.createElement("button");
     download.className = "photo-download";
     download.textContent = "Download";
     download.addEventListener("click", event => {
-      event.stopPropagation(); // Mencegah pembukaan lightbox
+      event.stopPropagation();
       handleDownload(photo.id);
     });
 
     card.append(img, info, download);
 
-    // Klik foto untuk membuka tampilan besar (lightbox)
+    // Klik foto untuk membuka tampilan besar (lightbox)[cite: 1]
     card.addEventListener("click", () => {
       currentPhotoId = photo.id;
       lightboxImg.src = driveImage(photo.id);
@@ -563,7 +565,7 @@ function renderPhotos(filter = "all") {
   });
 }
 
-// Event listener untuk tombol Download pada tampilan foto besar (Lightbox)
+// Event listener untuk tombol Download pada tampilan foto besar (Lightbox)[cite: 1]
 lightboxDownloadBtn.addEventListener("click", () => {
   if (currentPhotoId) {
     handleDownload(currentPhotoId);
@@ -586,7 +588,7 @@ document.addEventListener("keydown", event => {
   if (event.key === "Escape") closeLightbox();
 });
 
-// Jalankan rendering foto saat pertama kali dibuka
+// Jalankan rendering foto saat pertama kali dibuka[cite: 1]
 renderPhotos();
 </script>
 
