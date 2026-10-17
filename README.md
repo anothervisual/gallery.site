@@ -1,4 +1,5 @@
 
+<!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
@@ -24,7 +25,6 @@
   padding: 0;
 }
 
-/* Proteksi sederhana untuk mencegah drag/select gambar */
 img, video, .photo, .lightbox {
   -webkit-user-select: none;
   user-select: none;
@@ -179,11 +179,12 @@ h1 em {
   border-color: var(--accent);
 }
 
+/* GALERI FOTO RASIO 1:1 */
 .gallery {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  grid-auto-rows: 245px;
   gap: 15px;
+  align-items: start;
 }
 
 .photo {
@@ -192,11 +193,17 @@ h1 em {
   background: var(--panel);
   cursor: pointer;
   border-radius: 3px;
+  aspect-ratio: 1 / 1;
+  min-width: 0;
   animation: reveal .65s ease both;
 }
 
-.photo.tall { grid-row: span 2; }
-.photo.wide { grid-column: span 2; }
+/* Semua foto tetap persegi, tanpa ukuran tall/wide */
+.photo.tall,
+.photo.wide {
+  grid-row: auto;
+  grid-column: auto;
+}
 
 .photo img, .photo video {
   pointer-events: none;
@@ -319,7 +326,7 @@ footer {
 
 footer span { color: var(--accent); }
 
-/* Lightbox Modal */
+/* LIGHTBOX */
 .lightbox {
   position: fixed;
   inset: 0;
@@ -393,16 +400,18 @@ footer span { color: var(--accent); }
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* RESPONSIVE */
 @media (max-width: 760px) {
   nav { height: 65px; padding: 0 5%; }
   .hero { padding: 75px 5% 50px; }
   .hero-bottom { align-items: start; flex-direction: column; }
   .gallery-section { padding: 0 5% 65px; }
+
   .gallery {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-auto-rows: 190px;
     gap: 9px;
   }
+
   .photo-info { left: 11px; right: 11px; bottom: 12px; }
   .photo-download { top: 8px; right: 8px; min-height: 31px; padding: 0 10px; font-size: 10px; }
   .photo-info h3 { font-size: 15px; }
@@ -412,9 +421,11 @@ footer span { color: var(--accent); }
 }
 
 @media (max-width: 420px) {
-  .gallery { grid-auto-rows: 155px; }
-  .photo.tall { grid-row: span 2; }
+  .gallery { gap: 8px; }
   .photo-info h3 { font-size: 13px; }
+  .photo-info p { font-size: 8px; letter-spacing: .5px; }
+  .photo-download { min-height: 28px; padding: 0 8px; font-size: 9px; }
+  .lightbox { padding: 15px; }
 }
 </style>
 </head>
@@ -457,17 +468,15 @@ footer span { color: var(--accent); }
   <div>CAPTURED WITH INTENTION.</div>
 </footer>
 
-<!-- Lightbox Tampilan Foto/Video Besar -->
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Pratinjau media">
   <button class="close" id="close" aria-label="Tutup">&times;</button>
   <div class="lightbox-content" id="lightbox-container">
-    <!-- Konten lightbox akan dimuat secara dinamis oleh JavaScript -->
     <button class="lightbox-download" id="lightbox-download">Download</button>
   </div>
 </div>
 
 <script>
-// DAFTAR FOTO DAN VIDEO DARI GOOGLE DRIVE
+// DAFTAR FOTO DAN VIDEO GOOGLE DRIVE
 const photos = [
   { id: "1HmYYsUgbQbr0ASooF0gHmnWElC1aeO9c", title: "Visual 01", category: "other", description: "ARCHIVE", size: "" },
   { id: "1k9740f8wNXwhYg-pe6IH2E_tB1MwzQWE", title: "Visual 02", category: "other", description: "ARCHIVE", size: "" },
@@ -508,9 +517,7 @@ const photos = [
   { id: "1_nuOFCXFcMLZfKakxa1uG7nUY0XXSu7N", title: "Visual 37", category: "other", description: "ARCHIVE", size: "" },
   { id: "1TzFz6hcg5AxF2Bwb61j1Y2RUXWPNPb1M", title: "Visual 38", category: "other", description: "ARCHIVE", size: "" },
   { id: "1wxnUTl1g4HbQ9ZSwgc6mkTJkQ6S2c_U5", title: "Visual 39", category: "other", description: "ARCHIVE", size: "" },
-  { id: "1s3S-1jepwIHV_dfv4DW9DZjj3tEZPoEZ", title: "Visual 40", category: "other", description: "ARCHIVE", size: "tall" },
-  // Contoh jika nanti ingin menambahkan Video (Ubah type menjadi "video"):
-  // { type: "video", id: "ID_VIDEO_GOOGLE_DRIVE", title: "Video Showcase", category: "other", description: "VIDEO COLLECTION", size: "wide" }
+  { id: "1s3S-1jepwIHV_dfv4DW9DZjj3tEZPoEZ", title: "Visual 40", category: "other", description: "ARCHIVE", size: "tall" }
 ];
 
 const gallery = document.getElementById("gallery");
@@ -530,13 +537,16 @@ function driveVideo(id) {
   return `https://docs.google.com/uc?export=download&id=${encodeURIComponent(id)}`;
 }
 
-// Fungsi Download & Redirect Instagram
+// DOWNLOAD DAN REDIRECT INSTAGRAM
 function handleDownload(id) {
-  const downloadUrl = `https://drive.google.com/uc?export=download&id=${encodeURIComponent(id)}`;
+  const downloadUrl =
+    `https://drive.google.com/uc?export=download&id=${encodeURIComponent(id)}`;
+
   window.open(downloadUrl, "_blank");
 
   setTimeout(() => {
-    window.location.href = "https://www.instagram.com/anothervisual_creative/";
+    window.location.href =
+      "https://www.instagram.com/anothervisual_creative/";
   }, 300);
 }
 
@@ -547,14 +557,16 @@ function renderPhotos(filter = "all") {
 
   gallery.innerHTML = "";
   empty.style.display = filtered.length ? "none" : "block";
-  count.textContent = `${String(filtered.length).padStart(2, "0")} PHOTOGRAPHS`;
+  count.textContent =
+    `${String(filtered.length).padStart(2, "0")} PHOTOGRAPHS`;
 
   filtered.forEach((photo, index) => {
     const card = document.createElement("article");
-    card.className = "photo " + (photo.size || "");
+    card.className = "photo";
     card.style.animationDelay = `${index * 70}ms`;
 
     let mediaElement;
+
     if (photo.type === "video") {
       mediaElement = document.createElement("video");
       mediaElement.src = driveVideo(photo.id);
@@ -573,8 +585,10 @@ function renderPhotos(filter = "all") {
     info.className = "photo-info";
 
     const details = document.createElement("div");
+
     const title = document.createElement("h3");
     title.textContent = photo.title;
+
     const description = document.createElement("p");
     description.textContent = photo.description || "PHOTO COLLECTION";
 
@@ -589,6 +603,7 @@ function renderPhotos(filter = "all") {
     const download = document.createElement("button");
     download.className = "photo-download";
     download.textContent = "Download";
+
     download.addEventListener("click", event => {
       event.stopPropagation();
       handleDownload(photo.id);
@@ -596,12 +611,13 @@ function renderPhotos(filter = "all") {
 
     card.append(mediaElement, info, download);
 
-    // Klik untuk buka lightbox (mendukung foto & video)
+    // BUKA FOTO ATAU VIDEO
     card.addEventListener("click", () => {
       currentPhotoId = photo.id;
-      
-      // Bersihkan isi lightbox sebelumnya kecuali tombol download
-      const existingMedia = lightboxContainer.querySelector("img, video");
+
+      const existingMedia =
+        lightboxContainer.querySelector("img, video");
+
       if (existingMedia) existingMedia.remove();
 
       if (photo.type === "video") {
@@ -609,11 +625,13 @@ function renderPhotos(filter = "all") {
         vEl.src = driveVideo(photo.id);
         vEl.controls = true;
         vEl.autoplay = true;
+
         lightboxContainer.insertBefore(vEl, lightboxDownloadBtn);
       } else {
         const imgEl = document.createElement("img");
         imgEl.src = driveImage(photo.id);
         imgEl.alt = photo.title;
+
         lightboxContainer.insertBefore(imgEl, lightboxDownloadBtn);
       }
 
@@ -632,8 +650,10 @@ lightboxDownloadBtn.addEventListener("click", () => {
 
 function closeLightbox() {
   lightbox.classList.remove("open");
+
   const media = lightboxContainer.querySelector("img, video");
   if (media) media.remove();
+
   currentPhotoId = "";
 }
 
