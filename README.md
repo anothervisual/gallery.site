@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gallery — Visual Archive</title>
+<title>Gallery — Another Visual</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
@@ -25,13 +25,13 @@
 }
 
 /* Proteksi sederhana untuk mencegah drag/select gambar */
-img, .photo, .lightbox {
+img, video, .photo, .lightbox {
   -webkit-user-select: none;
   user-select: none;
   -webkit-touch-callout: none;
 }
 
-img {
+img, video {
   -webkit-user-drag: none;
 }
 
@@ -198,7 +198,7 @@ h1 em {
 .photo.tall { grid-row: span 2; }
 .photo.wide { grid-column: span 2; }
 
-.photo img {
+.photo img, .photo video {
   pointer-events: none;
   width: 100%;
   height: 100%;
@@ -217,7 +217,7 @@ h1 em {
   pointer-events: none;
 }
 
-.photo:hover img {
+.photo:hover img, .photo:hover video {
   transform: scale(1.06);
   filter: brightness(.8);
 }
@@ -343,9 +343,9 @@ footer span { color: var(--accent); }
   max-height: 92vh;
 }
 
-.lightbox img {
+.lightbox img, .lightbox video {
   -webkit-user-drag: none;
-  pointer-events: none;
+  pointer-events: auto;
   max-width: 100%;
   max-height: calc(85vh - 65px);
   object-fit: contain;
@@ -449,7 +449,7 @@ footer span { color: var(--accent); }
   </div>
 
   <div class="gallery" id="gallery"></div>
-  <div class="empty" id="empty" style="display: block;">Belum ada foto dalam galeri.</div>
+  <div class="empty" id="empty">Belum ada foto dalam kategori ini.</div>
 </main>
 
 <footer>
@@ -457,51 +457,84 @@ footer span { color: var(--accent); }
   <div>CAPTURED WITH INTENTION.</div>
 </footer>
 
-<!-- Lightbox Tampilan Foto Besar -->
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Pratinjau foto">
+<!-- Lightbox Tampilan Foto/Video Besar -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Pratinjau media">
   <button class="close" id="close" aria-label="Tutup">&times;</button>
-  <div class="lightbox-content">
-    <img id="lightbox-img" src="" alt="Foto dalam ukuran besar">
+  <div class="lightbox-content" id="lightbox-container">
+    <!-- Konten lightbox akan dimuat secara dinamis oleh JavaScript -->
     <button class="lightbox-download" id="lightbox-download">Download</button>
   </div>
 </div>
 
 <script>
-// MASUKKAN DAFTAR FOTO GOOGLE DRIVE KAMU DI SINI
+// DAFTAR FOTO DAN VIDEO DARI GOOGLE DRIVE
 const photos = [
-  /* Contoh format penambahan foto:
-  {
-    id: "ID_FOTO_GOOGLE_DRIVE_KAMU",
-    title: "Judul Foto",
-    category: "other",
-    description: "PHOTO COLLECTION",
-    size: "" // Kosongkan atau isi "tall" / "wide"
-  }
-  */
+  { id: "1HmYYsUgbQbr0ASooF0gHmnWElC1aeO9c", title: "Visual 01", category: "other", description: "ARCHIVE", size: "" },
+  { id: "1k9740f8wNXwhYg-pe6IH2E_tB1MwzQWE", title: "Visual 02", category: "other", description: "ARCHIVE", size: "" },
+  { id: "1q0kFW1qvjqLsNcER0y75rD7PZiCD6mFE", title: "Visual 03", category: "other", description: "ARCHIVE", size: "tall" },
+  { id: "1sv_ZDSXu1ih1j1Wl7Nb6ZDJ1IJG54m1q", title: "Visual 04", category: "other", description: "ARCHIVE", size: "" },
+  { id: "1C8hOeBxOWPYtGri0w07Cxy7IJKzl1rDH", title: "Visual 05", category: "other", description: "ARCHIVE", size: "" },
+  { id: "1fCnKr1Es6W1e25B6-VaSvFDSdAWf5er6", title: "Visual 06", category: "other", description: "ARCHIVE", size: "wide" },
+  { id: "1PcK0TA2xX9HW8yXiYZ247eQPLwnyxJAY", title: "Visual 07", category: "other", description: "ARCHIVE", size: "" },
+  { id: "1BD7Yxi1fvv3MDJPhe8vMr_rGX_-V90VD", title: "Visual 08", category: "other", description: "ARCHIVE", size: "" },
+  { id: "1GjWFiSvkKeJXq5_QREs2qd5EuEFeMG0i", title: "Visual 09", category: "other", description: "ARCHIVE", size: "" },
+  { id: "1h302-hRw83CSYYX2i7D7HyiWFojiPywV", title: "Visual 10", category: "other", description: "ARCHIVE", size: "tall" },
+  { id: "1Yj3Bnl2kCr6dcveB_EQq1B2pgedWwav0", title: "Visual 11", category: "other", description: "ARCHIVE", size: "" },
+  { id: "1vLBdLCl1sb-plg4MXR_EDsS7M3mLVNS1", title: "Visual 12", category: "other", description: "ARCHIVE", size: "" },
+  { id: "1yDFcjDu3INMdjnHPeOOJiAfuA-bDereH", title: "Visual 13", category: "other", description: "ARCHIVE", size: "" },
+  { id: "1hRDaz12uwksQecRfDmBXHfLhDdyhsR6q", title: "Visual 14", category: "other", description: "ARCHIVE", size: "" },
+  { id: "1fOoP_2-mV-EpjEGGwi8D00uNbyCydpvV", title: "Visual 15", category: "other", description: "ARCHIVE", size: "wide" },
+  { id: "198R2s_UCWUKHElya0_E2fPtwkwt19CRP", title: "Visual 16", category: "other", description: "ARCHIVE", size: "" },
+  { id: "15gk9lqpKyseiFHJJb_ya-JOLZKIE0PzR", title: "Visual 17", category: "other", description: "ARCHIVE", size: "" },
+  { id: "1KUTJKzcoZZ4I4TiKkhHfmDU0Dn00OvhY", title: "Visual 18", category: "other", description: "ARCHIVE", size: "" },
+  { id: "1kjGIdT1dJRqpk5yf_nweVWM68kwp04Vp", title: "Visual 19", category: "other", description: "ARCHIVE", size: "" },
+  { id: "1pT5OF6yCY3eEYEtSKoVQW0TpTgHLrG-f", title: "Visual 20", category: "other", description: "ARCHIVE", size: "tall" },
+  { id: "12-KjEWyHWu_5SiECyKhdtumx0BvXITqd", title: "Visual 21", category: "other", description: "ARCHIVE", size: "" },
+  { id: "17hZ8YrWGZLaiXsk-hbey2OdWwNB0z3gK", title: "Visual 22", category: "other", description: "ARCHIVE", size: "" },
+  { id: "1Z9FY_uRRwzAlGEQA8IChyQGF-VXf5Rw5", title: "Visual 23", category: "other", description: "ARCHIVE", size: "" },
+  { id: "1Qz0zzaXNTFMkHbK0FvV-PbjalHB6bwQ-", title: "Visual 24", category: "other", description: "ARCHIVE", size: "" },
+  { id: "1FfpVMOkJIiKPoLQ1tvpE4-69TKGHjNVP", title: "Visual 25", category: "other", description: "ARCHIVE", size: "wide" },
+  { id: "1XzTyDjgvPL3aOuqnGYN9ENnmA-6ED-1a", title: "Visual 26", category: "other", description: "ARCHIVE", size: "" },
+  { id: "1LWk1UNwq-Cao_QzqLBnSl2stwsOxyjSB", title: "Visual 27", category: "other", description: "ARCHIVE", size: "" },
+  { id: "1NdruPZh63O6-NgEMFPHY2hC-RdlDAHDR", title: "Visual 28", category: "other", description: "ARCHIVE", size: "" },
+  { id: "1K1YI2XyXWWtmmndJumXmbo_7_quT7Ef7", title: "Visual 29", category: "other", description: "ARCHIVE", size: "" },
+  { id: "1CfE9zdORjJR23eZy7BcuY3kZ7RBUkcoR", title: "Visual 30", category: "other", description: "ARCHIVE", size: "tall" },
+  { id: "1bo2kBLThPIuIfl9ld1-DyJkAOUhOKQ6H", title: "Visual 31", category: "other", description: "ARCHIVE", size: "" },
+  { id: "1jHtY2hNubzYp4fENTb64od6-I143dm-5", title: "Visual 32", category: "other", description: "ARCHIVE", size: "" },
+  { id: "1jnJ_i5Apgq-7HQIS5FrmLAXJcUlCYd5W", title: "Visual 33", category: "other", description: "ARCHIVE", size: "" },
+  { id: "12xDeeMvKUZB_1ZQdT5CJVCEf0NYjv8Gf", title: "Visual 34", category: "other", description: "ARCHIVE", size: "" },
+  { id: "1POWi6Qvr1pHl0PR_P-eUK6tfUzksMhIK", title: "Visual 35", category: "other", description: "ARCHIVE", size: "wide" },
+  { id: "1Z9JQINBDrBxxlpQsCrATPv9n_-ZV-eC7", title: "Visual 36", category: "other", description: "ARCHIVE", size: "" },
+  { id: "1_nuOFCXFcMLZfKakxa1uG7nUY0XXSu7N", title: "Visual 37", category: "other", description: "ARCHIVE", size: "" },
+  { id: "1TzFz6hcg5AxF2Bwb61j1Y2RUXWPNPb1M", title: "Visual 38", category: "other", description: "ARCHIVE", size: "" },
+  { id: "1wxnUTl1g4HbQ9ZSwgc6mkTJkQ6S2c_U5", title: "Visual 39", category: "other", description: "ARCHIVE", size: "" },
+  { id: "1s3S-1jepwIHV_dfv4DW9DZjj3tEZPoEZ", title: "Visual 40", category: "other", description: "ARCHIVE", size: "tall" },
+  // Contoh jika nanti ingin menambahkan Video (Ubah type menjadi "video"):
+  // { type: "video", id: "ID_VIDEO_GOOGLE_DRIVE", title: "Video Showcase", category: "other", description: "VIDEO COLLECTION", size: "wide" }
 ];
 
 const gallery = document.getElementById("gallery");
 const count = document.getElementById("count");
 const empty = document.getElementById("empty");
 const lightbox = document.getElementById("lightbox");
-const lightboxImg = document.getElementById("lightbox-img");
+const lightboxContainer = document.getElementById("lightbox-container");
 const lightboxDownloadBtn = document.getElementById("lightbox-download");
 
 let currentPhotoId = "";
 
-// URL thumbnail untuk tampilan gambar di web[cite: 1]
 function driveImage(id) {
   return `https://drive.google.com/thumbnail?id=${encodeURIComponent(id)}&sz=w1600`;
 }
 
-// FUNGSI UTAMA DOWNLOAD + REDIRECT INSTAGRAM[cite: 1]
+function driveVideo(id) {
+  return `https://docs.google.com/uc?export=download&id=${encodeURIComponent(id)}`;
+}
+
+// Fungsi Download & Redirect Instagram
 function handleDownload(id) {
   const downloadUrl = `https://drive.google.com/uc?export=download&id=${encodeURIComponent(id)}`;
+  window.open(downloadUrl, "_blank");
 
-  // 1. Buka tautan unduhan di tab/window tersembunyi agar file terunduh[cite: 1]
-  const downloadWindow = window.open(downloadUrl, "_blank");
-
-  // 2. Arahkan tab utama ke Instagram setelah unduhan dipicu[cite: 1]
   setTimeout(() => {
     window.location.href = "https://www.instagram.com/anothervisual_creative/";
   }, 300);
@@ -521,10 +554,20 @@ function renderPhotos(filter = "all") {
     card.className = "photo " + (photo.size || "");
     card.style.animationDelay = `${index * 70}ms`;
 
-    const img = document.createElement("img");
-    img.src = driveImage(photo.id);
-    img.alt = photo.title;
-    img.loading = "lazy";
+    let mediaElement;
+    if (photo.type === "video") {
+      mediaElement = document.createElement("video");
+      mediaElement.src = driveVideo(photo.id);
+      mediaElement.muted = true;
+      mediaElement.loop = true;
+      mediaElement.playsInline = true;
+      mediaElement.preload = "metadata";
+    } else {
+      mediaElement = document.createElement("img");
+      mediaElement.src = driveImage(photo.id);
+      mediaElement.alt = photo.title;
+      mediaElement.loading = "lazy";
+    }
 
     const info = document.createElement("div");
     info.className = "photo-info";
@@ -543,7 +586,6 @@ function renderPhotos(filter = "all") {
 
     info.append(details, zoom);
 
-    // Tombol Download di kartu foto kecil[cite: 1]
     const download = document.createElement("button");
     download.className = "photo-download";
     download.textContent = "Download";
@@ -552,12 +594,29 @@ function renderPhotos(filter = "all") {
       handleDownload(photo.id);
     });
 
-    card.append(img, info, download);
+    card.append(mediaElement, info, download);
 
-    // Klik foto untuk membuka tampilan besar (lightbox)[cite: 1]
+    // Klik untuk buka lightbox (mendukung foto & video)
     card.addEventListener("click", () => {
       currentPhotoId = photo.id;
-      lightboxImg.src = driveImage(photo.id);
+      
+      // Bersihkan isi lightbox sebelumnya kecuali tombol download
+      const existingMedia = lightboxContainer.querySelector("img, video");
+      if (existingMedia) existingMedia.remove();
+
+      if (photo.type === "video") {
+        const vEl = document.createElement("video");
+        vEl.src = driveVideo(photo.id);
+        vEl.controls = true;
+        vEl.autoplay = true;
+        lightboxContainer.insertBefore(vEl, lightboxDownloadBtn);
+      } else {
+        const imgEl = document.createElement("img");
+        imgEl.src = driveImage(photo.id);
+        imgEl.alt = photo.title;
+        lightboxContainer.insertBefore(imgEl, lightboxDownloadBtn);
+      }
+
       lightbox.classList.add("open");
     });
 
@@ -565,7 +624,6 @@ function renderPhotos(filter = "all") {
   });
 }
 
-// Event listener untuk tombol Download pada tampilan foto besar (Lightbox)[cite: 1]
 lightboxDownloadBtn.addEventListener("click", () => {
   if (currentPhotoId) {
     handleDownload(currentPhotoId);
@@ -574,7 +632,8 @@ lightboxDownloadBtn.addEventListener("click", () => {
 
 function closeLightbox() {
   lightbox.classList.remove("open");
-  lightboxImg.src = "";
+  const media = lightboxContainer.querySelector("img, video");
+  if (media) media.remove();
   currentPhotoId = "";
 }
 
@@ -588,7 +647,6 @@ document.addEventListener("keydown", event => {
   if (event.key === "Escape") closeLightbox();
 });
 
-// Jalankan rendering foto saat pertama kali dibuka[cite: 1]
 renderPhotos();
 </script>
 
